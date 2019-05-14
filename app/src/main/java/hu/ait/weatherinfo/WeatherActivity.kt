@@ -43,6 +43,7 @@ class WeatherActivity : AppCompatActivity() {
             .baseUrl(HOST_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+
         var weatherAPI = retrofit.create(WeatherAPI::class.java)
 
         val call = weatherAPI.getWeatherDetails(name,
