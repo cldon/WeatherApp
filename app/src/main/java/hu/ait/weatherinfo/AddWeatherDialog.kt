@@ -8,25 +8,27 @@ import android.support.v7.app.AlertDialog
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Spinner
-import hu.ait.weatherinfo.data.Weather
-import kotlinx.android.synthetic.main.new_weather_dialog.view.*
+import hu.ait.weatherinfo.data.City
+import kotlinx.android.synthetic.main.new_city_dialog.view.*
+//import hu.ait.weatherinfo.data.Weather
+//import kotlinx.android.synthetic.main.new_weather_dialog.view.*
 import java.lang.RuntimeException
 
-class AddWeatherDialog : DialogFragment() {
-    interface WeatherHandler {
-        fun newWeatherCreated(item: Weather)
+class AddCityDialog : DialogFragment() {
+    interface CityHandler {
+        fun newCityCreated(item: City)
 //        fun toBuyUpdated(item: ToBuy)
     }
 
-    private lateinit var weatherHandler: WeatherHandler
+    private lateinit var cityHandler: CityHandler
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
 
-        if (context is WeatherHandler) {
-            weatherHandler = context
+        if (context is CityHandler) {
+            cityHandler = context
         } else {
-            throw RuntimeException("The activity does not implement the WeatherHandler interface")
+            throw RuntimeException("The activity does not implement the CityHandler interface")
         }
     }
 
@@ -44,7 +46,7 @@ class AddWeatherDialog : DialogFragment() {
         builder.setTitle("Add New City")
 
         val rootView = requireActivity().layoutInflater.inflate(
-            R.layout.new_weather_dialog, null
+            R.layout.new_city_dialog, null
         )
         //etTodoDate = rootView.findViewById(R.id.etTodoText)
 //        spinCategory = rootView.spinCategory
@@ -117,7 +119,7 @@ class AddWeatherDialog : DialogFragment() {
             if (etCity.text.isEmpty()) {
                 etCity.error = "Must enter city"
             } else {
-                handleWeatherCreate()
+                handleCityCreate()
                 dialog.dismiss()
             }
 
@@ -134,9 +136,9 @@ class AddWeatherDialog : DialogFragment() {
         }
     }
 
-    private fun handleWeatherCreate() {
-        weatherHandler.newWeatherCreated(
-            Weather(null, etCity.text.toString())
+    private fun handleCityCreate() {
+        cityHandler.newCityCreated(
+            City(null, etCity.text.toString())
         )
     }
 

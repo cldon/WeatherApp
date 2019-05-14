@@ -1,6 +1,6 @@
 package hu.ait.weatherinfo.touch
 
-interface WeatherTouchHelperCallback {
+interface CityTouchHelperCallback {
     fun onDismissed(position: Int)
     fun onItemMoved(fromPosition: Int, toPosition: Int)
 }

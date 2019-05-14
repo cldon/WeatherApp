@@ -5,10 +5,10 @@ import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.content.Context
 
-@Database(entities = arrayOf(Weather::class), version = 1)
+@Database(entities = arrayOf(City::class), version = 1)
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract fun weatherDao(): WeatherDAO
+    abstract fun cityDao(): CityDAO
 
     companion object {
         private var INSTANCE: AppDatabase? = null
@@ -16,7 +16,7 @@ abstract class AppDatabase : RoomDatabase() {
         fun getInstance(context: Context): AppDatabase {
             if (INSTANCE == null) {
                 INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                    AppDatabase::class.java, "weather.db")
+                    AppDatabase::class.java, "city.db")
                     .build()
             }
             return INSTANCE!!

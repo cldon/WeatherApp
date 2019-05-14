@@ -1,22 +1,23 @@
 package hu.ait.weatherinfo
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.Menu
 import android.view.MenuItem
-import hu.ait.weatherinfo.adapter.WeatherAdapter
+import hu.ait.weatherinfo.adapter.CityAdapter
 import hu.ait.weatherinfo.data.AppDatabase
-import hu.ait.weatherinfo.data.Weather
-import hu.ait.weatherinfo.touch.WeatherReyclerTouchCallback
+import hu.ait.weatherinfo.data.City
+import hu.ait.weatherinfo.touch.CityReyclerTouchCallback
+
+
 import kotlinx.android.synthetic.main.activity_scrolling.*
 
-class ScrollingActivity : AppCompatActivity(),  AddWeatherDialog.WeatherHandler {
+class ScrollingActivity : AppCompatActivity(),  AddCityDialog.CityHandler {
 
-    lateinit var weatherAdapter : WeatherAdapter
+    lateinit var cityAdapter : CityAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +25,7 @@ class ScrollingActivity : AppCompatActivity(),  AddWeatherDialog.WeatherHandler 
 
         setSupportActionBar(toolbar)
         fab.setOnClickListener { view ->
-            showWeatherDialog()
+            showCityDialog()
         }
 
         initRecyclerViewFromDB()
@@ -32,40 +33,40 @@ class ScrollingActivity : AppCompatActivity(),  AddWeatherDialog.WeatherHandler 
 
     private fun initRecyclerViewFromDB() {
         Thread {
-            var weatherList = AppDatabase.getInstance(this@ScrollingActivity).weatherDao().getAllWeathers()
+            var cityList = AppDatabase.getInstance(this@ScrollingActivity).cityDao().getAllCities()
 
             runOnUiThread {
 
-                weatherAdapter = WeatherAdapter(this, weatherList)
+                cityAdapter = CityAdapter(this, cityList)
 
-                recyclerWeather.layoutManager = LinearLayoutManager(this)
+                recyclerCity.layoutManager = LinearLayoutManager(this)
 
 
-                recyclerWeather.adapter = weatherAdapter
+                recyclerCity.adapter = cityAdapter
 
                 val itemDecoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
-                recyclerWeather.addItemDecoration(itemDecoration)
+                recyclerCity.addItemDecoration(itemDecoration)
 
-                val callback = WeatherReyclerTouchCallback(weatherAdapter)
+                val callback = CityReyclerTouchCallback(cityAdapter)
                 val touchHelper = ItemTouchHelper(callback)
-                touchHelper.attachToRecyclerView(recyclerWeather)
+                touchHelper.attachToRecyclerView(recyclerCity)
             }
 
         }.start()
     }
 
-    private fun showWeatherDialog() {
-        AddWeatherDialog().show(supportFragmentManager, "TAG_WEATHER_DIALOG")
+    private fun showCityDialog() {
+        AddCityDialog().show(supportFragmentManager, "TAG_CITY_DIALOG")
     }
 
-    override fun newWeatherCreated(item: Weather) {
+    override fun newCityCreated(item: City) {
         Thread {
-            var newId = AppDatabase.getInstance(this).weatherDao().insertWeather(item)
+            var newId = AppDatabase.getInstance(this).cityDao().insertCity(item)
 
-            item.weatherId = newId
+            item.cityId = newId
 
             runOnUiThread {
-               weatherAdapter.addWeather(item)
+               cityAdapter.addCity(item)
             }
         }.start()
     }

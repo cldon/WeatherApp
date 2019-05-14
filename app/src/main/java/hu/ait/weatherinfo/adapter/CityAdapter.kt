@@ -7,41 +7,42 @@ import android.view.View
 import android.view.ViewGroup
 import hu.ait.weatherinfo.ScrollingActivity
 import hu.ait.weatherinfo.data.AppDatabase
-import hu.ait.weatherinfo.data.Weather
-import hu.ait.weatherinfo.touch.WeatherTouchHelperCallback
-import kotlinx.android.synthetic.main.weather_row.view.*
+import hu.ait.weatherinfo.data.City
+import hu.ait.weatherinfo.touch.CityTouchHelperCallback
+import kotlinx.android.synthetic.main.city_row.view.*
+
 import java.util.*
 
-class WeatherAdapter : RecyclerView.Adapter<WeatherAdapter.ViewHolder>, WeatherTouchHelperCallback {
+class CityAdapter : RecyclerView.Adapter<CityAdapter.ViewHolder>, CityTouchHelperCallback {
 
-    var weatherItems = mutableListOf<Weather>()
+    var cityItems = mutableListOf<City>()
 
     private val context: Context
 
 
-    constructor(context: Context, listWeathers: List<Weather>) : super() {
+    constructor(context: Context, listCities: List<City>) : super() {
         this.context = context
-        weatherItems.addAll(listWeathers)
+        cityItems.addAll(listCities)
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        val weatherRowView = LayoutInflater.from(context).inflate(
-            hu.ait.weatherinfo.R.layout.weather_row, viewGroup, false
+        val cityRowView = LayoutInflater.from(context).inflate(
+            hu.ait.weatherinfo.R.layout.city_row, viewGroup, false
         )
-        return ViewHolder(weatherRowView)
+        return ViewHolder(cityRowView)
     }
 
     override fun getItemCount(): Int {
-        return weatherItems.size
+        return cityItems.size
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        val weather = weatherItems.get(position)
+        val city = cityItems.get(position)
 
-        viewHolder.tvItem.text = weather.city
+        viewHolder.tvItem.text = city.city
 
         viewHolder.btnDelete.setOnClickListener {
-            deleteWeather(viewHolder.adapterPosition)
+            deleteCity(viewHolder.adapterPosition)
         }
 
         viewHolder.btnView.setOnClickListener {
@@ -51,17 +52,17 @@ class WeatherAdapter : RecyclerView.Adapter<WeatherAdapter.ViewHolder>, WeatherT
     }
 
 
-    fun addWeather(weather: Weather) {
-        weatherItems.add(weather)
-        notifyItemInserted(weatherItems.lastIndex)
+    fun addCity(city: City) {
+        cityItems.add(city)
+        notifyItemInserted(cityItems.lastIndex)
     }
 
-    fun deleteWeather(deletePosition: Int) {
+    fun deleteCity(deletePosition: Int) {
         Thread {
-            AppDatabase.getInstance(context).weatherDao().deleteWeather(weatherItems.get(deletePosition))
+            AppDatabase.getInstance(context).cityDao().deleteCity(cityItems.get(deletePosition))
 
             (context as ScrollingActivity).runOnUiThread {
-                weatherItems.removeAt(deletePosition)
+                cityItems.removeAt(deletePosition)
                 notifyItemRemoved(deletePosition)
             }
         }.start()
@@ -69,21 +70,21 @@ class WeatherAdapter : RecyclerView.Adapter<WeatherAdapter.ViewHolder>, WeatherT
 
     fun deleteAll() {
         Thread{
-            AppDatabase.getInstance(context).weatherDao().deleteAll()
+            AppDatabase.getInstance(context).cityDao().deleteAll()
 
             (context as ScrollingActivity).runOnUiThread {
-                weatherItems.clear()
+                cityItems.clear()
                 notifyDataSetChanged()
             }
         }.start()
     }
 
     override fun onDismissed(position: Int) {
-        deleteWeather(position)
+        deleteCity(position)
     }
 
     override fun onItemMoved(fromPosition: Int, toPosition: Int) {
-        Collections.swap(weatherItems, fromPosition, toPosition)
+        Collections.swap(cityItems, fromPosition, toPosition)
         notifyItemMoved(fromPosition, toPosition)
     }
 

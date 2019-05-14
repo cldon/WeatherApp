@@ -58,7 +58,7 @@
             app:srcCompat="@android:drawable/ic_dialog_email"/>
 
     <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerWeather"
+            android:id="@+id/recyclerCity"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical"

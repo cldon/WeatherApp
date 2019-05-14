@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 
 
-class WeatherReyclerTouchCallback(private val weatherTouchHelperAdapter: WeatherTouchHelperCallback)
+class CityReyclerTouchCallback(private val cityTouchHelperAdapter: CityTouchHelperCallback)
     : ItemTouchHelper.Callback() {
 
     override fun isLongPressDragEnabled(): Boolean {
@@ -23,13 +23,13 @@ class WeatherReyclerTouchCallback(private val weatherTouchHelperAdapter: Weather
 
     override fun onMove(recyclerView: RecyclerView,
                         viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-        weatherTouchHelperAdapter.onItemMoved(
+        cityTouchHelperAdapter.onItemMoved(
             viewHolder.adapterPosition,
             target.adapterPosition)
         return true
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        weatherTouchHelperAdapter.onDismissed(viewHolder.adapterPosition)
+        cityTouchHelperAdapter.onDismissed(viewHolder.adapterPosition)
     }
 }
