@@ -20,7 +20,7 @@ import java.net.URL
 
 class WeatherActivity : AppCompatActivity() {
 
-    private val HOST_URL = "api.openweathermap.org/"
+    private val HOST_URL = "https://api.openweathermap.org/"
     private val APP_ID = "e589664ee9f8466e8a6dec99ec7bae30"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,11 +31,8 @@ class WeatherActivity : AppCompatActivity() {
             val name = intent.getStringExtra(CityAdapter.CITY_NAME)
 //            val grade = intent.getStringExtra(MainActivity.KEY_GRADE)
 
-            tvOne.text = name
-
             getCurrentValues(name)
         }
-
     }
 
     private fun getCurrentValues(name: String) {
@@ -52,13 +49,30 @@ class WeatherActivity : AppCompatActivity() {
         )
         call.enqueue(object : Callback<WeatherResult> {
             override fun onResponse(call: Call<WeatherResult>, response: Response<WeatherResult>) {
-                System.out.println("This failed for some reason")
+                val weatherResult = response.body()
+
+                Glide.with(this@WeatherActivity)
+                    .load(("https://openweathermap.org/img/w/" +
+                                response.body()?.weather?.get(0)?.icon
+                                + ".png"))
+                    .into(ivWeather)
+
+
+                tvCoords.text = weatherResult?.coord?.lat.toString() + ", " + weatherResult?.coord?.lon.toString()
+                tvWeather.text = weatherResult?.weather?.get(0)?.main?.toString()
+                tvDescription.text = weatherResult?.weather?.get(0)?.description?.toString()
+                tvTemperature.text = weatherResult?.main?.temp.toString()
+                tvPressure.text =  weatherResult?.main?.pressure.toString()
+                tvHumidity.text = weatherResult?.main?.humidity.toString()
+                tvMinTemp.text = weatherResult?.main?.temp_min?.toString()
+                tvMaxTemp.text = weatherResult?.main?.temp_max?.toString()
+
             }
             override fun onFailure(call: Call<WeatherResult>, t: Throwable) {
-                System.out.println("It has passed!")
-                System.out.println(call)
+                System.out.println("Request failed")
             }
         })
+
     }
 
 }

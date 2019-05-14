@@ -8,11 +8,11 @@ class CityReyclerTouchCallback(private val cityTouchHelperAdapter: CityTouchHelp
     : ItemTouchHelper.Callback() {
 
     override fun isLongPressDragEnabled(): Boolean {
-        return true
+        return false
     }
 
     override fun isItemViewSwipeEnabled(): Boolean {
-        return true
+        return false
     }
 
 

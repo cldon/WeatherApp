@@ -40,6 +40,8 @@ class CityAdapter : RecyclerView.Adapter<CityAdapter.ViewHolder>, CityTouchHelpe
             hu.ait.weatherinfo.R.layout.city_row, viewGroup, false
         )
         return ViewHolder(cityRowView)
+
+
     }
 
     override fun getItemCount(): Int {
@@ -68,18 +70,7 @@ class CityAdapter : RecyclerView.Adapter<CityAdapter.ViewHolder>, CityTouchHelpe
 
         intentWeather.putExtra(CITY_NAME, message)
         ContextCompat.startActivity(this.context, intentWeather, null)
-//        intentWeather.setClassName(this.context, "hu.ait.weatherinfo.WeatherActivity")
-        // Activity can be started also if we know
-        // the package name and the class name of it
-        //intentDetails.setClassName(this@MainActivity,
-        //    "com.org.facebook.MainActivity")
 
-        //startActivity(intentDetails)
-//        ContextCompat.startActivity(this.context, WeatherActivity::class.ko)
-
-//        startActivityForResult(WeatherActivity, intentWeather)
-//        ContextCompat.startActivity(this.context, intentWeather)
-//        ContextCompat.startActivity(intentWeather)
 
     }
 

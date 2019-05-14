@@ -4,7 +4,9 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_margin="10dp"
-        android:background="@android:drawable/dialog_holo_light_frame"
+        android:padding="10dp"
+
+        android:background="@drawable/round_border"
         android:layout_height="wrap_content"
 >
 
@@ -26,7 +28,11 @@
                 android:text="Click for details"/>
 
     </LinearLayout>
-
+    <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+    />
     <Button
             android:id="@+id/btnView"
             android:text="View"
@@ -37,7 +43,8 @@
             android:id="@+id/btnDelete"
             android:text="Delete"
             android:textSize="12dp"
-            android:layout_gravity="center"
+            android:layout_marginRight="-10dp"
+            android:layout_alignParentRight = "true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
     />
